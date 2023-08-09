@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lotto90</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Battambang&family=Roboto:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <style>
+        :root {
+            scroll-behavior: smooth;
+        }
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type=number] {
+            appearance: textfield;
+            -moz-appearance: textfield;
+            -webkit-appearance: textfield;
+            margin: 0; 
+        }
+
+        * {
+            font-family: 'Roboto', sans-serif, 'Battambang', cursive;
+        }
+
+        .icon {
+            font-family: "Material Symbols Outlined";
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-smoothing: antialiased;
+            vertical-align: middle;
+            user-select: none;
+        }
+
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            display: none;
+            justify-content: start;
+            animation: loading-box 2s infinite linear;
+        }
+
+        #loading>div {
+            height: 100%;
+            animation: loading-bar 1s infinite ease;
+            position: relative;
+        }
+
+        @keyframes loading-box {
+
+            0%,
+            100% {
+                justify-content: start;
+            }
+
+            50% {
+                justify-content: end;
+            }
+        }
+
+        @keyframes loading-bar {
+
+            0%,
+            100% {
+                width: 0%;
+                background: linear-gradient(45deg, red, green, blue);
+            }
+
+            50% {
+                width: 100%;
+                background: linear-gradient(45deg, blue, green, red);
+            }
+        }
+
+        .show {
+            display: block;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        table,
+        thead,
+        tr,
+        td {
+            border-collapse: collapse;
+        }
+
+        table thead tr th {
+            background: #a9f5f5;
+            padding: 5px 10px;
+            position: sticky;
+            top: 0;
+            text-align: left;
+        }
+
+        table tbody tr td {
+            padding: 5px 10px;
+            margin: 0;
+            border-top: 1px solid gray;
+        }
+
+        table tbody tr td:last-child {
+            text-align: center;
+        }
+
+        table tbody tr.lose {
+            background: #ffe6e6;
+        }
+
+        table tbody tr:hover {
+            background: #eeeeee;
+        }
+
+        table tbody tr td span[onclick]:hover {
+            cursor: pointer;
+        }
+
+        table tbody tr td span[onclick]:first-child {
+            color: red;
+        }
+
+        table tbody tr td span[onclick]:nth-child(2) {
+            color: green;
+        }
+
+        table#table-lose-mode tbody tr td span {
+            color: blue;
+        }
+
+        h1 {
+            text-transform: capitalize;
+        }
+
+        .snackbar {
+            position: fixed;
+            height: auto;
+            border-radius: 10px;
+            background: #000000;
+            color: #ffffff;
+            bottom: 10px;
+            right: 10px;
+            padding: 10px;
+        }
+
+        @keyframes snack-in {
+            from {
+                right: -50%;
+            }
+
+            to {
+                right: 10px;
+            }
+        }
+
+        @keyframes snack-out {
+            from {
+                right: 10px;
+            }
+
+            to {
+                right: -50%;
+            }
+        }
+
+        .snackbar-in {
+            animation: snack-in 500ms 1;
+        }
+
+        .snackbar-out {
+            animation: snack-out 500ms 1;
+        }
+
+        .today-win-lose {
+            font-weight: bold;
+            color: #006cff;
+        }
+
+        .credit::after {
+            content: '៛';
+        }
+
+        button.scroll-top {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            padding: 0;
+            margin: 0;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            background: #3cedff;
+            cursor: pointer;
+            display: none;
+        }
+
+        button.scroll-top:hover {
+            background: #16cbdf;
+            animation: zoom 250ms 1;
+        }
+
+        @keyframes zoom {
+            to {
+                bottom: 9px;
+                right: 9px;
+                width: 42px;
+                height: 42px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loading">
+        <div></div>
+    </div>
+
+    <button class="scroll-top" onclick="scrollToTopPage()">
+        <span class="icon">expand_less</span>
+    </button>
+    
+    
+    <div id="token-section">
+        <form action="" id="form-control" onsubmit="login(event)">
+            <input type="password" name="pass" id="pass" placeholder="Enter your password">
+            <button type="submit">Start</button>
+        </form>
+    </div>
+    
+    <div id="work-section">
+        <div>
+            <label for="add-to-lose">Win amount add to lose mode:</label>
+            <input type="number" name="add-to-lose" id="add-to-lose" value="150000">
+            <label for="remove-from-lose">Win amount remove from lose</label>
+            <input type="number" name="remove-from-lose" id="remove-from-lose" value="100000">
+        </div>
+        <h1>List of user lose mode</h1>
+        <table id="table-lose-mode">
+            <thead>
+                <tr>
+                    <th>User #</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Register Date</th>
+                    <th>Credit</th>
+                    <th>
+                        <button onclick="getUserLoseMode()" style="float: right;">Regresh</button>
+                        <button onclick="clearUserLoseMode()" style="margin-right:5px;float: right;">Clear</button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <br>
+        <br>
+
+        <h1>List of user Win-Lose</h1>
+        <table id="table-win-lose">
+            <thead>
+                <tr>
+                    <th>User #</th>
+                    <th>Username</th>
+                    <th>Turn Over</th>
+                    <th>Win/Lose</th>
+                    <th>Max Bet</th>
+                    <th><button onclick="getUserWinLose()" style="float: right;">Refresh</button></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <script src="main.ts"></script>
+</body>
+
+</html>
