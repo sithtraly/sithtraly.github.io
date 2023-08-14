@@ -483,7 +483,7 @@
         }
 
         function clearUserLoseMode() {
-            const lostList = JSON.parse(JSON.stringify(userLostMode))
+            const lostList = [...userLostMode]
             for (const u of lostList) {
                 userMode(u, 'lose', false)
             }
