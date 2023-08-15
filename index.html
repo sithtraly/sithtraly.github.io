@@ -310,14 +310,19 @@
                 headers.authorization = token
                 hideElement('#token-section')
                 showElement('#work-section')
-                setTimeout(() => {
-                    getUserWinLose()
-                    getUserLoseMode()
-                }, 500)
+                getUserWinLose()
+                getUserLoseMode()
 
                 setInterval(() => {
                     getUserWinLose()
                 }, 1000 * 60 * 4)
+
+                const oldDate = localStorage.getItem('date') || ''
+                const currentDate = getDate()
+                if (oldDate != currentDate) {
+                    localStorage.setItem('date', currentDate)
+                    clearUserLoseMode()
+                }
             } else {
                 showElement('#token-section')
                 hideElement('#work-section')
@@ -545,6 +550,14 @@
             const resData = await res.json()
             showLoading(false)
             return resData
+        }
+
+        function getDate() {
+            const d = new Date()
+            const date = d.getDate().toString()
+            const month = (d.getMonth() + 1).toString().padStart(2, 0)
+            const year = d.getFullYear().toString().padStart(2, 0)
+            return year + month + date
         }
     </script>
 </body>
