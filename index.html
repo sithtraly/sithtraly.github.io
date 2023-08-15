@@ -321,7 +321,7 @@
                 const currentDate = getDate()
                 if (oldDate != currentDate) {
                     localStorage.setItem('date', currentDate)
-                    clearUserLoseMode()
+                    setTimeout(() => clearUserLoseMode(), 200)
                 }
             } else {
                 showElement('#token-section')
